@@ -3,29 +3,47 @@ class Board
 
   def initialize(playerX, playerO)
     @new_board = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']]
-    @positions = {
-      1 => @new_board[0][0],
-      2 => @new_board[0][1],
-      3 => @new_board[0][2],
-      4 => @new_board[1][0],
-      5 => @new_board[1][1],
-      6 => @new_board[1][2],
-      7 => @new_board[2][0],
-      8 => @new_board[2][1],
-      9 => @new_board[2][2]
-    }
     @playerX = playerX
     @playerO = playerO
   end
 
-  def turn(player)
+  private
+
+  def print_board
+    @new_board.each do |row|
+      p row
+    end
+  end
+
+  def set_position(player)
+    count = 0
+    row = ''
+    column = ''
+    positions = ['0', '1', '2']
+    get_position(player, positions, count, row, column)
+    @new_board[row.to_i][column.to_i] = 'X'
+  end
+
+  def get_position(player, positions, count, row, column)
     loop do
       print "#{player}'s turn: "
-      @position = gets
-      break if @positions.key?(@position.to_i)
-      puts "Not a valid position!"
+      position = gets.chomp
+      if positions.include? position
+        count == 0 ? row = position : column = position
+        count += 1
+      else
+        puts "Not a valid position!"
+      end
+      break if count > 1
     end
-    @positions[@position.to_i] = 'X'
+  end
+
+  public
+
+  def turn(player)
+    puts "Enter row and then column!"
+    set_position(player)
+    print_board()
   end
 end
 
