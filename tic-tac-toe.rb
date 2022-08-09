@@ -1,38 +1,40 @@
 class Board
+  attr_reader :playerX, :playerO
 
-  def initialize()
+  def initialize(playerX, playerO)
     @new_board = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']]
-    create_players()
+    @positions = {
+      1 => @new_board[0][0],
+      2 => @new_board[0][1],
+      3 => @new_board[0][2],
+      4 => @new_board[1][0],
+      5 => @new_board[1][1],
+      6 => @new_board[1][2],
+      7 => @new_board[2][0],
+      8 => @new_board[2][1],
+      9 => @new_board[2][2]
+    }
+    @playerX = playerX
+    @playerO = playerO
   end
 
-  def create_players()
-    @player1 = Player.new("Player1")
-    @player2 = Player.new("Player2")
+  def turn(player)
+    loop do
+      print "#{player}'s turn: "
+      @position = gets
+      break if @positions.key?(@position.to_i)
+      puts "Not a valid position!"
+    end
+    @positions[@position.to_i] = 'X'
   end
 end
-
-class Player < Board
-  def initialize(name)
-    @name = name
-  end
-end
-
-positions = {
-  1 => "[0][0]",
-  2 => "[0][1]",
-  3 => "[0][2]",
-  4 => "[1][0]",
-  5 => "[1][1]",
-  6 => "[1][2]",
-  7 => "[2][0]",
-  8 => "[2][1]",
-  9 => "[2][2]",
-}
-
-p positions[1]
 
 # board.each do |row|
 #   p row
 # end
 
-game = Board.new
+game = Board.new('Bob', 'Jim')
+while 1
+  game.turn(game.playerX)
+  game.turn(game.playerO)
+end
