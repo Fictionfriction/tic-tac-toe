@@ -16,15 +16,15 @@ class Board
   end
 
   def set_position(player)
+    positions = ['0', '1', '2']
+    position = get_position(player, positions)
+    @new_board[position[0].to_i][position[1].to_i] = player
+  end
+
+  def get_position(player, positions)
     count = 0
     row = ''
     column = ''
-    positions = ['0', '1', '2']
-    get_position(player, positions, count, row, column)
-    @new_board[row.to_i][column.to_i] = 'X'
-  end
-
-  def get_position(player, positions, count, row, column)
     loop do
       print "#{player}'s turn: "
       position = gets.chomp
@@ -36,6 +36,7 @@ class Board
       end
       break if count > 1
     end
+    return [row, column]
   end
 
   public
@@ -47,11 +48,8 @@ class Board
   end
 end
 
-# board.each do |row|
-#   p row
-# end
+game = Board.new('X', 'O')
 
-game = Board.new('Bob', 'Jim')
 while 1
   game.turn(game.playerX)
   game.turn(game.playerO)
