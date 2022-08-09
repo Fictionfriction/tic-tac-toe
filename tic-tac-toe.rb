@@ -30,6 +30,15 @@ class Board
       position = gets.chomp
       if positions.include? position
         count == 0 ? row = position : column = position
+        if count == 1
+          unless @new_board[row.to_i][column.to_i] == '.'
+            puts 'Already an X or O there! Try again!'
+            row = ''
+            count = 0
+            column = ''
+            next
+          end
+        end
         count += 1
       else
         puts "Not a valid position!"
